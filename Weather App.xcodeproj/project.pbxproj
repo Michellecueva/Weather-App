@@ -14,6 +14,11 @@
 		28D163A52353644800FE2E54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28D163A42353644800FE2E54 /* Assets.xcassets */; };
 		28D163A82353644800FE2E54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D163A62353644800FE2E54 /* LaunchScreen.storyboard */; };
 		28D163B32353644800FE2E54 /* Weather_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163B22353644800FE2E54 /* Weather_AppTests.swift */; };
+		28D163BE2353BEC200FE2E54 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163BD2353BEC200FE2E54 /* ImageHelper.swift */; };
+		28D163C02353BEE600FE2E54 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163BF2353BEE600FE2E54 /* NetworkHelper.swift */; };
+		28D163C22353BF0000FE2E54 /* WeatherAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163C12353BF0000FE2E54 /* WeatherAPIClient.swift */; };
+		28D163C42353BF1400FE2E54 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163C32353BF1400FE2E54 /* AppError.swift */; };
+		28D163C72353C81800FE2E54 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D163C62353C81800FE2E54 /* Weather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +43,11 @@
 		28D163AE2353644800FE2E54 /* Weather AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Weather AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D163B22353644800FE2E54 /* Weather_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_AppTests.swift; sourceTree = "<group>"; };
 		28D163B42353644800FE2E54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28D163BD2353BEC200FE2E54 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		28D163BF2353BEE600FE2E54 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
+		28D163C12353BF0000FE2E54 /* WeatherAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIClient.swift; sourceTree = "<group>"; };
+		28D163C32353BF1400FE2E54 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		28D163C62353C81800FE2E54 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +93,8 @@
 				28D1639D2353644700FE2E54 /* SceneDelegate.swift */,
 				28D1639F2353644700FE2E54 /* ViewController.swift */,
 				28D163A12353644700FE2E54 /* Main.storyboard */,
+				28D163C62353C81800FE2E54 /* Weather.swift */,
+				28D163C52353BF2200FE2E54 /* Networking */,
 				28D163A42353644800FE2E54 /* Assets.xcassets */,
 				28D163A62353644800FE2E54 /* LaunchScreen.storyboard */,
 				28D163A92353644800FE2E54 /* Info.plist */,
@@ -97,6 +109,17 @@
 				28D163B42353644800FE2E54 /* Info.plist */,
 			);
 			path = "Weather AppTests";
+			sourceTree = "<group>";
+		};
+		28D163C52353BF2200FE2E54 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				28D163BF2353BEE600FE2E54 /* NetworkHelper.swift */,
+				28D163C12353BF0000FE2E54 /* WeatherAPIClient.swift */,
+				28D163BD2353BEC200FE2E54 /* ImageHelper.swift */,
+				28D163C32353BF1400FE2E54 /* AppError.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,9 +223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D163C72353C81800FE2E54 /* Weather.swift in Sources */,
+				28D163C22353BF0000FE2E54 /* WeatherAPIClient.swift in Sources */,
 				28D163A02353644700FE2E54 /* ViewController.swift in Sources */,
 				28D1639C2353644700FE2E54 /* AppDelegate.swift in Sources */,
+				28D163C02353BEE600FE2E54 /* NetworkHelper.swift in Sources */,
 				28D1639E2353644700FE2E54 /* SceneDelegate.swift in Sources */,
+				28D163BE2353BEC200FE2E54 /* ImageHelper.swift in Sources */,
+				28D163C42353BF1400FE2E54 /* AppError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
