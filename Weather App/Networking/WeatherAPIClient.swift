@@ -15,14 +15,14 @@ struct WeatherAPIClient {
     
 
     
-    func  getWeatherURL(txtfieldText: String) -> URL {
-     guard let url = URL(string: "") else {fatalError("Error: Invalid URL")}
+    func  getWeatherURL(lat: Double, long: Double) -> URL {
+        guard let url = URL(string: "https://api.darksky.net/forecast/\(Secrets.DarkSkyAPIKey)/\(lat),\(long)") else {fatalError("Error: Invalid URL")}
      return url
 }
     
 
-    func getWeather(userInput: String, completionHandler: @escaping (Result<[Weather], AppError>) -> Void) {
-        NetworkHelper.manager.performDataTask(withUrl: getWeatherURL(txtfieldText: userInput), andMethod: .get) { result in
+    func getWeather(lat: Double, long: Double, completionHandler: @escaping (Result<[Weather], AppError>) -> Void) {
+        NetworkHelper.manager.performDataTask(withUrl: getWeatherURL(lat: lat, long: long), andMethod: .get) { result in
             switch result {
             case let .failure(error):
                 completionHandler(.failure(error))
