@@ -15,7 +15,7 @@ struct WeatherAPIClient {
     
 
     
-    func  getWeatherURL(lat: Double, long: Double) -> URL {
+    private func  getWeatherURL(lat: Double, long: Double) -> URL {
         guard let url = URL(string: "https://api.darksky.net/forecast/\(Secrets.DarkSkyAPIKey)/\(lat),\(long)") else {fatalError("Error: Invalid URL")}
      return url
 }
