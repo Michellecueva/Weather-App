@@ -20,16 +20,17 @@ class ViewController: UIViewController {
     
     lazy var weatherCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 325, height: 300)
+        layout.itemSize = CGSize(width: 275, height: 300)
         layout.scrollDirection = .horizontal
         
-        let collectionView = UICollectionView(frame:.zero, collectionViewLayout: layout)
         
+        let collectionView = UICollectionView(frame:.zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "weatherCell")
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = #colorLiteral(red: 0.3850156015, green: 0.8531414642, blue: 0.985880573, alpha: 0.6418999566)
+        collectionView.showsHorizontalScrollIndicator = false
+        
             
         return collectionView
     }()
@@ -41,10 +42,23 @@ class ViewController: UIViewController {
         return label
     }()
     
-
+    lazy var userInput: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .lightText
+        textField.borderStyle = .bezel
+        return textField
+    }()
+    
+    lazy var zipCodeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Enter a Zip Code"
+        return label
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = #colorLiteral(red: 0.6022105217, green: 0.9038603902, blue: 0.9913617969, alpha: 1)
         self.navigationItem.title = "Search"
         addSubViews()
         configureConstraints()
@@ -65,22 +79,35 @@ class ViewController: UIViewController {
     }
     
     private func addSubViews() {
-        self.view.addSubview(weatherLabel)
+       
         self.view.addSubview(weatherCollectionView)
-        
+         self.view.addSubview(weatherLabel)
+        self.view.addSubview(userInput)
+        self.view.addSubview(zipCodeLabel)
     }
     
     private func configureConstraints() {
         weatherLabel.translatesAutoresizingMaskIntoConstraints = false
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        userInput.translatesAutoresizingMaskIntoConstraints = false
+        zipCodeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             weatherLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            weatherLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 125),
+            weatherLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 110),
+            
             weatherCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            weatherCollectionView.topAnchor.constraint(equalTo: self.weatherLabel.bottomAnchor, constant: 30),
+            weatherCollectionView.topAnchor.constraint(equalTo: self.weatherLabel.topAnchor),
             weatherCollectionView.heightAnchor.constraint(equalToConstant: 400),
-            weatherCollectionView.widthAnchor.constraint(equalToConstant: 400)
+            weatherCollectionView.widthAnchor.constraint(equalToConstant: 400),
+            
+            userInput.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            userInput.topAnchor.constraint(equalTo: weatherCollectionView.bottomAnchor, constant: -20),
+            userInput.heightAnchor.constraint(equalToConstant: 40),
+            userInput.widthAnchor.constraint(equalToConstant: 100),
+            
+            zipCodeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            zipCodeLabel.topAnchor.constraint(equalTo: userInput.bottomAnchor, constant: 30),
         ])
         
     }
