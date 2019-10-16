@@ -11,9 +11,9 @@ import UIKit
 class ViewController: UIViewController {
     
     var weather = [Weather]() {
-           didSet {
-               weatherCollectionView.reloadData()
-           }
+        didSet {
+            weatherCollectionView.reloadData()
+        }
     }
     
     var weatherLabelText = "Weather Forecast"
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "weatherCell")
         collectionView.showsHorizontalScrollIndicator = false
         
-            
+        
         return collectionView
     }()
     
@@ -68,20 +68,20 @@ class ViewController: UIViewController {
     private func loadData(lat: Double, long: Double) {
         WeatherAPIClient.manager.getWeather(lat: lat, long: long) { (result) in
             DispatchQueue.main.async {
-               switch result {
-                    case .success(let weatherFromJSON):
-                        self.weather = weatherFromJSON
-                    case .failure(let error):
-                        print(error)
-                    }
+                switch result {
+                case .success(let weatherFromJSON):
+                    self.weather = weatherFromJSON
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
     }
     
     private func addSubViews() {
-       
+        
         self.view.addSubview(weatherCollectionView)
-         self.view.addSubview(weatherLabel)
+        self.view.addSubview(weatherLabel)
         self.view.addSubview(userInput)
         self.view.addSubview(zipCodeLabel)
     }
@@ -111,29 +111,23 @@ class ViewController: UIViewController {
         ])
         
     }
-    
-    
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return weather.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = self.weatherCollectionView.dequeueReusableCell(withReuseIdentifier: "weatherCell", for: indexPath) as? WeatherCollectionViewCell else {return UICollectionViewCell()}
         
         let currentWeather = weather[indexPath.row]
         
-        if let highTemp = currentWeather.temperatureHigh {
-            cell.hiTempLabel.text = "High: \(highTemp.description)°F"
-        }
+        cell.hiTempLabel.text = "High: \(currentWeather.temperatureHigh)°F"
+        cell.lowTempLabel.text = "Low: \(currentWeather.temperatureLow)°F"
         
-        if let lowTemp = currentWeather.temperatureLow {
-            cell.lowTempLabel.text = "Low: \(lowTemp.description)°F"
-        }
-
+        
         
         cell.backgroundColor = #colorLiteral(red: 0.3850156015, green: 0.8531414642, blue: 0.985880573, alpha: 0.6418999566)
         
@@ -142,13 +136,12 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 extension ViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let currentWeather = weather[indexPath.row]
-//        let detailVC  = DetailViewController()
-//        detailVC.view.backgroundColor = #colorLiteral(red: 0.5485045887, green: 0.8194161367, blue: 0.8383918695, alpha: 1)
-//        detailVC.user = currentUser
-//        self.present(detailVC, animated: true, completion: nil)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let currentWeather = weather[indexPath.row]
+        let detailVC  = DetailViewController()
+        detailVC.weather = currentWeather
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 

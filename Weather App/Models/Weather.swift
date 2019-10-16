@@ -23,11 +23,16 @@ struct Daily: Codable {
 }
 
 struct Weather: Codable {
-//    let time: Int
-    let temperatureHigh: Double?
-    let temperatureLow: Double?
-//    let sunriseTime: Int
-//    let sunsetTime: Int
-//    let windSpeed: Double
-//    let precipProbability: Double
+    let time: Int
+    let temperatureHigh: Double
+    let temperatureLow: Double
+    let sunriseTime: Int
+    let sunsetTime: Int
+    let windSpeed: Double
+    let precipProbability: Double
+    
+    
+    var percentageOfprecipitation: Int {
+       return Int(precipProbability * 100)
+    }
 }
