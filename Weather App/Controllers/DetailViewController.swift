@@ -63,6 +63,14 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    lazy var weatherImage: UIImageView = {
+        let image = UIImageView()
+//        image.image =
+        image.contentMode = .scaleAspectFit
+        image.backgroundColor = .lightGray
+        return image
+    }()
+    
     lazy var detailLabelStackview: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -108,17 +116,25 @@ class DetailViewController: UIViewController {
     private func setSubViews() {
         self.view.addSubview(detailLabelStackview)
         self.view.addSubview(topLabelStackview)
+        self.view.addSubview(weatherImage)
     }
     
     private func configureConstraints() {
         detailLabelStackview.translatesAutoresizingMaskIntoConstraints = false
         topLabelStackview.translatesAutoresizingMaskIntoConstraints = false
+        weatherImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             topLabelStackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            topLabelStackview.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+            topLabelStackview.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 120),
+        
+            weatherImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            weatherImage.topAnchor.constraint(equalTo: topLabelStackview.bottomAnchor, constant: 30),
+            weatherImage.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+            weatherImage.heightAnchor.constraint(equalToConstant: 300),
+            
             detailLabelStackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            detailLabelStackview.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+            detailLabelStackview.topAnchor.constraint(equalTo: weatherImage.bottomAnchor,constant: 30)
         ])
         
     }
