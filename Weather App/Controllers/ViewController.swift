@@ -14,15 +14,16 @@ class ViewController: UIViewController {
            didSet {
                weatherCollectionView.reloadData()
            }
-       }
+    }
+    
+    var weatherLabelText = "Weather Forecast"
     
     lazy var weatherCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: 325, height: 300)
         layout.scrollDirection = .horizontal
         
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: 400, height: 400), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame:.zero, collectionViewLayout: layout)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -31,13 +32,22 @@ class ViewController: UIViewController {
         collectionView.backgroundColor = #colorLiteral(red: 0.3850156015, green: 0.8531414642, blue: 0.985880573, alpha: 0.6418999566)
             
         return collectionView
-        }()
+    }()
+    
+    lazy var weatherLabel: UILabel = {
+        let label = UILabel()
+        label.text = weatherLabelText
+        label.font = .italicSystemFont(ofSize: 20)
+        return label
+    }()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.view.addSubview(weatherCollectionView)
+        self.navigationItem.title = "Search"
+        addSubViews()
+        configureConstraints()
         loadData(lat: 40.40652363, long: -75.15703082)
     }
     
@@ -53,6 +63,29 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    private func addSubViews() {
+        self.view.addSubview(weatherLabel)
+        self.view.addSubview(weatherCollectionView)
+        
+    }
+    
+    private func configureConstraints() {
+        weatherLabel.translatesAutoresizingMaskIntoConstraints = false
+        weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            weatherLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            weatherLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 125),
+            weatherCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            weatherCollectionView.topAnchor.constraint(equalTo: self.weatherLabel.bottomAnchor, constant: 30),
+            weatherCollectionView.heightAnchor.constraint(equalToConstant: 400),
+            weatherCollectionView.widthAnchor.constraint(equalToConstant: 400)
+        ])
+        
+    }
+    
+    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -67,10 +100,15 @@ extension ViewController: UICollectionViewDataSource {
         let currentWeather = weather[indexPath.row]
         
         if let highTemp = currentWeather.temperatureHigh {
-            cell.hiTempLabel.text = highTemp.description
+            cell.hiTempLabel.text = "High: \(highTemp.description)°F"
         }
         
-        cell.backgroundColor = #colorLiteral(red: 0.5485045887, green: 0.8194161367, blue: 0.8383918695, alpha: 1)
+        if let lowTemp = currentWeather.temperatureLow {
+            cell.lowTempLabel.text = "Low: \(lowTemp.description)°F"
+        }
+
+        
+        cell.backgroundColor = #colorLiteral(red: 0.3850156015, green: 0.8531414642, blue: 0.985880573, alpha: 0.6418999566)
         
         return cell
     }

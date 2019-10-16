@@ -55,22 +55,19 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         weatherImage.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
+        weatherImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
            weatherImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-           weatherImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-           weatherImage.widthAnchor.constraint(equalToConstant: 100),
-           weatherImage.heightAnchor.constraint(equalToConstant: 100),
+//           weatherImage.widthAnchor.constraint(equalToConstant: 20),
+//           weatherImage.heightAnchor.constraint(equalToConstant: 20),
 
-           dateLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
            dateLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
            dateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
             
             hiTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
-            hiTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
             hiTempLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 20),
             
             lowTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
-            lowTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
-            lowTempLabel.topAnchor.constraint(equalTo: hiTempLabel.bottomAnchor, constant: 10)
+            lowTempLabel.bottomAnchor.constraint(equalTo: hiTempLabel.bottomAnchor, constant: 30)
         ])
     }
     
