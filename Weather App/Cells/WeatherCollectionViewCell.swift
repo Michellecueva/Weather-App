@@ -10,9 +10,9 @@ import UIKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
     var dateLabel: UILabel = {
-           let label = UILabel()
-           return label
-       }()
+        let label = UILabel()
+        return label
+    }()
     
     var weatherImage: UIImageView = {
         let image = UIImageView()
@@ -35,7 +35,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         addViews()
         configureConstraints()
     }
-        required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -52,19 +52,20 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         hiTempLabel.translatesAutoresizingMaskIntoConstraints = false
         lowTempLabel.translatesAutoresizingMaskIntoConstraints = false
-        weatherImage.contentMode = .scaleAspectFit
+        weatherImage.contentMode = .top
         
         NSLayoutConstraint.activate([
-        weatherImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-           weatherImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-//           weatherImage.widthAnchor.constraint(equalToConstant: 20),
-//           weatherImage.heightAnchor.constraint(equalToConstant: 20),
-
-           dateLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
-           dateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
+            
+            dateLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            dateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 20),
+            
+            weatherImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            weatherImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor, constant: -15),
+            weatherImage.widthAnchor.constraint(equalToConstant: 150),
+            weatherImage.heightAnchor.constraint(equalToConstant: 150),
             
             hiTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
-            hiTempLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 20),
+            hiTempLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 180),
             
             lowTempLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
             lowTempLabel.bottomAnchor.constraint(equalTo: hiTempLabel.bottomAnchor, constant: 30)
