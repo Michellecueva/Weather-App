@@ -8,16 +8,6 @@
 
 import Foundation
 
-struct CityImageWrapper: Codable {
-    let hits: [ImageInfo]
-    
-    static func decodeCityFromData(from jsonData: Data) throws -> String {
-        let response = try JSONDecoder().decode(CityImageWrapper.self, from: jsonData)
-        return response.hits[Int.random(in: 0 ..< response.hits.count)].largeImageURL
-    }
-}
-
-
-struct ImageInfo: Codable {
-    let largeImageURL: String
+struct CityImage: Codable {
+    let image: Data
 }
