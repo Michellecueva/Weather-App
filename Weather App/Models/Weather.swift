@@ -23,7 +23,7 @@ struct Daily: Codable {
 }
 
 struct Weather: Codable {
-    let time: Int
+    let time: Double
     let temperatureHigh: Double
     let temperatureLow: Double
     let sunriseTime: Int
@@ -31,6 +31,14 @@ struct Weather: Codable {
     let windSpeed: Double
     let precipProbability: Double
     
+    var timeInDateFormat: String {
+        let date = Date(timeIntervalSince1970: time)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let strDate = dateFormatter.string(from: date)
+        return strDate
+    }
     
     var percentageOfprecipitation: Int {
        return Int(precipProbability * 100)

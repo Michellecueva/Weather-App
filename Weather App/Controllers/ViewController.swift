@@ -126,6 +126,7 @@ extension ViewController: UICollectionViewDataSource {
         
         cell.hiTempLabel.text = "High: \(currentWeather.temperatureHigh)°F"
         cell.lowTempLabel.text = "Low: \(currentWeather.temperatureLow)°F"
+        cell.dateLabel.text = currentWeather.timeInDateFormat
         
         
         

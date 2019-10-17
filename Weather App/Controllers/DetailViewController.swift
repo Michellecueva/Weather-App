@@ -22,7 +22,7 @@ class DetailViewController: UIViewController {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "Date:"
+        label.text = weather.timeInDateFormat
         label.textAlignment = .center
         return label
     }()
