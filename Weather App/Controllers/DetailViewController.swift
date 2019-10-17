@@ -13,6 +13,8 @@ class DetailViewController: UIViewController {
     
     var currentTimeZone: String!
     
+    var imageUrlString: String!
+    
     var weatherText = "Weather Forecast For"
     
     lazy var weatherLabel: UILabel = {
@@ -74,7 +76,7 @@ class DetailViewController: UIViewController {
     
     lazy var weatherImage: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .center
+        image.contentMode = .scaleAspectFit
         image.image = UIImage(named: weather.icon)
         return image
     }()
@@ -116,6 +118,39 @@ class DetailViewController: UIViewController {
         self.view.backgroundColor = #colorLiteral(red: 0.6022105217, green: 0.9038603902, blue: 0.9913617969, alpha: 1)
         setSubViews()
         configureConstraints()
+        setNavigationBarItems()
+        loadData(city: "New York")
+    }
+    
+    func loadData(city: String) {
+        CityImageAPIClient.manager.getCity(city: city) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let urlString):
+                    self.imageUrlString = urlString
+                    self.setImage()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    private func setImage() {
+        if imageUrlString != nil {
+            ImageHelper.shared.getImage(urlStr: imageUrlString) { (result) in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let imageFromOnline):
+                        self.weatherImage.image = imageFromOnline
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
+    }
+    private func setNavigationBarItems() {
         navigationItem.title = "Forecast"
         navigationItem.rightBarButtonItem = saveButton
     }
