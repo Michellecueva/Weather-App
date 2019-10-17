@@ -106,11 +106,24 @@ class DetailViewController: UIViewController {
     }()
     
     lazy var saveButton: UIBarButtonItem = {
-        let saveItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: nil, action: #selector(pressSaveButton))
+        let saveItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(pressSaveButton))
         return saveItem
     }()
     
     @objc func pressSaveButton() {
+        
+        guard let image = weatherImage.image else {return}
+        guard let data = image.jpegData(compressionQuality: 0.5) else {return}
+        
+        let photo = CityImage(image: data)
+        
+        do {
+            try PhotoPersistenceHelper.manager.save(newPhoto: photo)
+            showSavingsAlert()
+        } catch {
+            print(error)
+        }
+        
         
     }
     override func viewDidLoad() {
@@ -122,7 +135,7 @@ class DetailViewController: UIViewController {
         loadData(city: "New York")
     }
     
-    func loadData(city: String) {
+    private func loadData(city: String) {
         CityImageAPIClient.manager.getCity(city: city) { (result) in
             DispatchQueue.main.async {
                 switch result {
@@ -184,6 +197,13 @@ class DetailViewController: UIViewController {
             detailLabelStackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             detailLabelStackview.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor,constant: 30)
         ])
-        
+    }
+    
+    private func showSavingsAlert() {
+        let alert = UIAlertController(title: "Saved", message: "Image Saved to Favorites.", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+
+        self.present(alert, animated: true)
     }
 }
