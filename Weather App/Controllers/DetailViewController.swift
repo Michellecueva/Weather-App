@@ -11,6 +11,8 @@ import UIKit
 class DetailViewController: UIViewController {
     var weather: Weather!
     
+    var currentTimeZone: String!
+    
     var weatherText = "Weather Forecast For"
     
     lazy var weatherLabel: UILabel = {
@@ -41,13 +43,13 @@ class DetailViewController: UIViewController {
     
     lazy var sunriseTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sunrise:"
+        label.text = "Sunrise: \(weather.setTime(time: weather.sunriseTime, timeZone: currentTimeZone))"
         return label
     }()
     
     lazy var sunsetTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sunset"
+        label.text = "Sunset: \(weather.setTime(time: weather.sunsetTime, timeZone: currentTimeZone))"
         return label
     }()
     

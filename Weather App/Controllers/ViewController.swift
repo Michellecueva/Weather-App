@@ -16,6 +16,8 @@ class ViewController: UIViewController {
         }
     }
     
+    var currentTimeZone: String!
+    
     var weatherLabelText = "Weather Forecast"
     
     lazy var weatherCollectionView: UICollectionView = {
@@ -70,7 +72,8 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weatherFromJSON):
-                    self.weather = weatherFromJSON
+                    self.weather = weatherFromJSON.0
+                    self.currentTimeZone = weatherFromJSON.1
                 case .failure(let error):
                     print(error)
                 }
@@ -141,6 +144,7 @@ extension ViewController: UICollectionViewDelegate {
         let currentWeather = weather[indexPath.row]
         let detailVC  = DetailViewController()
         detailVC.weather = currentWeather
+        detailVC.currentTimeZone = currentTimeZone
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

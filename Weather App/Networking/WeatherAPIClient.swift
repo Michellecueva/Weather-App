@@ -21,7 +21,7 @@ struct WeatherAPIClient {
 }
     
 
-    func getWeather(lat: Double, long: Double, completionHandler: @escaping (Result<[Weather], AppError>) -> Void) {
+    func getWeather(lat: Double, long: Double, completionHandler: @escaping (Result<([Weather], String), AppError>) -> Void) {
         NetworkHelper.manager.performDataTask(withUrl: getWeatherURL(lat: lat, long: long), andMethod: .get) { result in
             switch result {
             case let .failure(error):
@@ -29,7 +29,7 @@ struct WeatherAPIClient {
                 return
             case let .success(data):
                 do {
-                    let weather = try WeatherWrapper.decodeElementsFromData(from: data)
+                    let weather = try WeatherWrapper.decodeWeatherFromData(from: data)
                     completionHandler(.success(weather))
                 }
                 catch {
@@ -38,6 +38,7 @@ struct WeatherAPIClient {
             }
         }
     }
+    
 
     private init() {}
 }
