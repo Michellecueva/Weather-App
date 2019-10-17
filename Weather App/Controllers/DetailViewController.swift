@@ -29,6 +29,13 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    lazy var summaryLabel: UILabel = {
+        let label = UILabel()
+        label.text = weather.summary
+        label.textAlignment = .center
+        return label
+    }()
+    
     lazy var hiTempLabel: UILabel = {
         let label = UILabel()
         label.text = "High: \(weather.temperatureHigh)°F"
@@ -67,9 +74,8 @@ class DetailViewController: UIViewController {
     
     lazy var weatherImage: UIImageView = {
         let image = UIImageView()
-//        image.image =
-        image.contentMode = .scaleAspectFit
-        image.backgroundColor = .lightGray
+        image.contentMode = .center
+        image.image = UIImage(named: weather.icon)
         return image
     }()
     
@@ -107,7 +113,7 @@ class DetailViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = #colorLiteral(red: 0.6022105217, green: 0.9038603902, blue: 0.9913617969, alpha: 1)
         setSubViews()
         configureConstraints()
         navigationItem.title = "Forecast"
@@ -119,12 +125,14 @@ class DetailViewController: UIViewController {
         self.view.addSubview(detailLabelStackview)
         self.view.addSubview(topLabelStackview)
         self.view.addSubview(weatherImage)
+        self.view.addSubview(summaryLabel)
     }
     
     private func configureConstraints() {
         detailLabelStackview.translatesAutoresizingMaskIntoConstraints = false
         topLabelStackview.translatesAutoresizingMaskIntoConstraints = false
         weatherImage.translatesAutoresizingMaskIntoConstraints = false
+        summaryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             topLabelStackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -135,8 +143,11 @@ class DetailViewController: UIViewController {
             weatherImage.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             weatherImage.heightAnchor.constraint(equalToConstant: 300),
             
+            summaryLabel.centerXAnchor.constraint(equalTo: weatherImage.centerXAnchor),
+            summaryLabel.topAnchor.constraint(equalTo: weatherImage.bottomAnchor, constant: 30),
+            
             detailLabelStackview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            detailLabelStackview.topAnchor.constraint(equalTo: weatherImage.bottomAnchor,constant: 30)
+            detailLabelStackview.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor,constant: 30)
         ])
         
     }
