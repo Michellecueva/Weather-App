@@ -26,14 +26,27 @@ struct Weather: Codable {
     let icon: String
     let summary: String
     let time: Double
-    let temperatureHigh: Double
-    let temperatureLow: Double
+    private let temperatureHigh: Double
+    private let temperatureLow: Double
     let sunriseTime: Double
     let sunsetTime: Double
-    let windSpeed: Double
+    private let windSpeed: Double
     let precipProbability: Double
     
-    var timeInDateFormat: String {
+    
+    var highTempinInt: Int {
+       return Int(temperatureHigh)
+    }
+    
+    var lowTempinInt: Int {
+        return Int(temperatureLow)
+    }
+    
+    var windSpeedInInt: Int {
+        return Int(windSpeed)
+    }
+    
+    var timeInStringFormat: String {
         let date = Date(timeIntervalSince1970: time)
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current

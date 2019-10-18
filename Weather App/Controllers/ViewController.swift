@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -18,7 +19,19 @@ class ViewController: UIViewController {
     
     var currentTimeZone: String!
     
-    var weatherLabelText = "Weather Forecast"
+    var city = String() {
+        didSet {
+            weatherLabel.text = "Weather Forecast for \(self.city)"
+        }
+    }
+    
+    var zipcode = String() {
+        didSet {
+            setLatAndLongAndCity(zipcode: zipcode)
+            userInput.text = zipcode
+        }
+        
+    }
     
     lazy var weatherCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -39,7 +52,7 @@ class ViewController: UIViewController {
     
     lazy var weatherLabel: UILabel = {
         let label = UILabel()
-        label.text = weatherLabelText
+//        label.text = weatherLabelText
         label.font = .italicSystemFont(ofSize: 20)
         return label
     }()
@@ -48,6 +61,8 @@ class ViewController: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = .lightText
         textField.borderStyle = .bezel
+        textField.placeholder = "Zip Code"
+        textField.textAlignment = .center
         return textField
     }()
     
@@ -64,10 +79,12 @@ class ViewController: UIViewController {
         self.navigationItem.title = "Search"
         addSubViews()
         configureConstraints()
-        loadData(lat: 40.40652363, long: -75.15703082)
+        zipcode = "11421"
+        userInput.delegate = self
     }
     
     private func loadData(lat: Double, long: Double) {
+        
         WeatherAPIClient.manager.getWeather(lat: lat, long: long) { (result) in
             DispatchQueue.main.async {
                 switch result {
@@ -78,6 +95,27 @@ class ViewController: UIViewController {
                     print(error)
                 }
             }
+        }
+    }
+    
+    private func setLatAndLongAndCity(zipcode: String) {
+        let geoCoder = CLGeocoder()
+        
+        geoCoder.geocodeAddressString(zipcode) {
+            placemarks, error in
+            let placemark = placemarks?.first
+            let lat = placemark?.location?.coordinate.latitude
+            let lon = placemark?.location?.coordinate.longitude
+            let city = placemark?.locality
+            
+            if let lat = lat, let lon = lon {
+                self.loadData(lat: lat, long: lon)
+            }
+            
+            if let city = city {
+                self.city = city
+            }
+            
         }
     }
     
@@ -127,9 +165,9 @@ extension ViewController: UICollectionViewDataSource {
         
         let currentWeather = weather[indexPath.row]
         
-        cell.hiTempLabel.text = "High: \(currentWeather.temperatureHigh)°F"
-        cell.lowTempLabel.text = "Low: \(currentWeather.temperatureLow)°F"
-        cell.dateLabel.text = currentWeather.timeInDateFormat
+        cell.hiTempLabel.text = "High: \(currentWeather.highTempinInt)°F"
+        cell.lowTempLabel.text = "Low: \(currentWeather.lowTempinInt)°F"
+        cell.dateLabel.text = currentWeather.timeInStringFormat
         cell.weatherImage.image = UIImage(named: currentWeather.icon)
         
         
@@ -146,7 +184,18 @@ extension ViewController: UICollectionViewDelegate {
         let detailVC  = DetailViewController()
         detailVC.weather = currentWeather
         detailVC.currentTimeZone = currentTimeZone
+        detailVC.city = city
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let userInput = textField.text {
+            zipcode = userInput
+        }
+        return true
     }
 }
 

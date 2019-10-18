@@ -15,18 +15,20 @@ class DetailViewController: UIViewController {
     
     var imageUrlString: String!
     
-    var weatherText = "Weather Forecast For"
+    var city = String()
+    
     
     lazy var weatherLabel: UILabel = {
         let label = UILabel()
-        label.text = weatherText
+        label.text = "Weather Forecast For \(city)"
+        print(city)
         label.textAlignment = .center
         return label
     }()
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.text = weather.timeInDateFormat
+        label.text = weather.timeInStringFormat
         label.textAlignment = .center
         return label
     }()
@@ -40,13 +42,13 @@ class DetailViewController: UIViewController {
     
     lazy var hiTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "High: \(weather.temperatureHigh)°F"
+        label.text = "High: \(weather.highTempinInt)°F"
         return label
     }()
     
     lazy var lowTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "Low: \(weather.temperatureLow)°F"
+        label.text = "Low: \(weather.lowTempinInt)°F"
         return label
     }()
     
@@ -64,7 +66,7 @@ class DetailViewController: UIViewController {
     
     lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
-        label.text = "Wind Speed: \((weather.windSpeed)) MPH"
+        label.text = "Wind Speed: \((weather.windSpeedInInt)) MPH"
         return label
     }()
     
@@ -85,7 +87,7 @@ class DetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.distribution = .fillEqually
+        stackView.spacing = 5
         stackView.addArrangedSubview(hiTempLabel)
         stackView.addArrangedSubview(lowTempLabel)
         stackView.addArrangedSubview(sunriseTimeLabel)
@@ -132,7 +134,7 @@ class DetailViewController: UIViewController {
         setSubViews()
         configureConstraints()
         setNavigationBarItems()
-        loadData(city: "New York")
+        loadData(city: city)
     }
     
     private func loadData(city: String) {
@@ -156,8 +158,9 @@ class DetailViewController: UIViewController {
                     switch result {
                     case .success(let imageFromOnline):
                         self.weatherImage.image = imageFromOnline
-                    case .failure(let error):
-                        print(error)
+                    case .failure( _):
+                        self.weatherImage.image = UIImage(named: self.weather.icon)
+                        
                     }
                 }
             }

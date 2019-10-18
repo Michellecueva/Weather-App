@@ -23,7 +23,7 @@ struct CityImageAPIClient {
 }
     
 
-    func getCity(city: String, completionHandler: @escaping (Result<(String), AppError>) -> Void) {
+    func getCity(city: String, completionHandler: @escaping (Result<(String?), AppError>) -> Void) {
         NetworkHelper.manager.performDataTask(withUrl: getcityURL(city: city), andMethod: .get) { result in
             switch result {
             case let .failure(error):

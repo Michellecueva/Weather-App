@@ -18,7 +18,7 @@ struct PersistenceHelper<T: Codable> {
     
     func save(newElement: T) throws {
         var elements = try getObjects()
-        elements.append(newElement)
+        elements.insert(newElement, at: 0)
         try replace(elements: elements)
     }
     

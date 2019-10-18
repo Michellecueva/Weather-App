@@ -11,9 +11,13 @@ import Foundation
 struct CityImageWrapper: Codable {
     let hits: [ImageInfo]
     
-    static func decodeCityFromData(from jsonData: Data) throws -> String {
+    static func decodeCityFromData(from jsonData: Data) throws -> String? {
         let response = try JSONDecoder().decode(CityImageWrapper.self, from: jsonData)
-        return response.hits[Int.random(in: 0 ..< response.hits.count)].largeImageURL
+        
+        if response.hits.count != 0 {
+             return response.hits[Int.random(in: 0 ..< response.hits.count)].largeImageURL
+        }
+       return ""
     }
 }
 
