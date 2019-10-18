@@ -21,7 +21,6 @@ class DetailViewController: UIViewController {
     lazy var weatherLabel: UILabel = {
         let label = UILabel()
         label.text = "Weather Forecast For \(city)"
-        print(city)
         label.textAlignment = .center
         return label
     }()

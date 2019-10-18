@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         didSet {
             setLatAndLongAndCity(zipcode: zipcode)
             userInput.text = zipcode
+            UserDefaultsWrapper.shared.store(zipCode: zipcode)
         }
         
     }
@@ -75,12 +76,22 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = #colorLiteral(red: 0.6022105217, green: 0.9038603902, blue: 0.9913617969, alpha: 1)
-        self.navigationItem.title = "Search"
+       loadDefaultSettings()
         addSubViews()
         configureConstraints()
-        zipcode = "11421"
+        
+    }
+    
+    private func loadDefaultSettings() {
+        self.view.backgroundColor = #colorLiteral(red: 0.6022105217, green: 0.9038603902, blue: 0.9913617969, alpha: 1)
+        self.navigationItem.title = "Search"
         userInput.delegate = self
+        
+        if let userInput = UserDefaultsWrapper.shared.getZipCode() {
+                   zipcode = userInput
+               } else {
+                   zipcode = "11421"
+        }
     }
     
     private func loadData(lat: Double, long: Double) {
