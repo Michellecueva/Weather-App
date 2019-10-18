@@ -12,9 +12,21 @@ class FavoritesViewController: UIViewController {
     
     var cityImages = [CityImage]() {
         didSet {
+            
+            let isHidden = cityImages.count == 0 ? false : true
+            
+            noFavoritesLabel.isHidden = isHidden
+            
             cityCollectionView.reloadData()
         }
     }
+    
+    lazy var noFavoritesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Saved Favorites"
+        label.font = .italicSystemFont(ofSize: 20)
+        return label
+    }()
     
     lazy var cityCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -34,7 +46,9 @@ class FavoritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.view.addSubview(cityCollectionView)
+        self.view.addSubview(cityCollectionView)
+        self.view.addSubview(noFavoritesLabel)
+        configureConstraints()
         
     }
     
@@ -49,6 +63,15 @@ class FavoritesViewController: UIViewController {
            } catch {
                print(error)
            }
+    }
+    
+    private func configureConstraints() {
+        noFavoritesLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            noFavoritesLabel.centerXAnchor.constraint(equalTo: self.cityCollectionView.centerXAnchor),
+            noFavoritesLabel.centerYAnchor.constraint(equalTo: self.cityCollectionView.centerYAnchor)
+        ])
     }
 }
 
