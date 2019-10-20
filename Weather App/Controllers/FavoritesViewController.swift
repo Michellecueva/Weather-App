@@ -13,10 +13,6 @@ class FavoritesViewController: UIViewController {
     var cityImages = [CityImage]() {
         didSet {
             
-            let isHidden = cityImages.count == 0 ? false : true
-            
-            noFavoritesLabel.isHidden = isHidden
-            
             cityCollectionView.reloadData()
         }
     }
@@ -48,13 +44,11 @@ class FavoritesViewController: UIViewController {
         super.viewDidLoad()
         self.view.addSubview(cityCollectionView)
         self.view.addSubview(noFavoritesLabel)
-        configureConstraints()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         loadData()
-       
+       configureConstraints()
     }
     
     private func loadData() {
@@ -67,6 +61,7 @@ class FavoritesViewController: UIViewController {
     
     private func configureConstraints() {
         noFavoritesLabel.translatesAutoresizingMaskIntoConstraints = false
+        noFavoritesLabel.isHidden = cityImages.count != 0
         
         NSLayoutConstraint.activate([
             noFavoritesLabel.centerXAnchor.constraint(equalTo: self.cityCollectionView.centerXAnchor),
@@ -77,6 +72,7 @@ class FavoritesViewController: UIViewController {
 
 extension FavoritesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return cityImages.count
     }
     
