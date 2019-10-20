@@ -30,5 +30,59 @@ class Weather_AppTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    private func WeatherModel() -> Data? {
+            let bundle = Bundle(for: type(of: self))
+            guard let pathToData = bundle.path(forResource: "WeatherSample", ofType: ".json")  else {
+                XCTFail("couldn't find Json")
+                return nil
+            }
+            let url = URL(fileURLWithPath: pathToData)
+            do {
+                let data = try Data(contentsOf: url)
+                return data
+            } catch let error {
+                fatalError("couldn't find data \(error)")
+            }
+        }
+
+    func testWeatherModel () {
+            let data = WeatherModel() ?? Data()
+            
+            do {
+                let weatherData = try WeatherWrapper.decodeWeatherFromData(from: data)
+                
+                 XCTAssertTrue(weatherData.0.count > 0, "weather was not loaded")
+            } catch let error {
+                XCTFail(error.localizedDescription)
+            }
+    }
+    
+    private func CityModel() -> Data? {
+            let bundle = Bundle(for: type(of: self))
+            guard let pathToData = bundle.path(forResource: "CitySample", ofType: ".json")  else {
+                XCTFail("couldn't find Json")
+                return nil
+            }
+            let url = URL(fileURLWithPath: pathToData)
+            do {
+                let data = try Data(contentsOf: url)
+                return data
+            } catch let error {
+                fatalError("couldn't find data \(error)")
+            }
+        }
+
+    func testCityModel () {
+            let data = CityModel() ?? Data()
+            
+            do {
+                let cityData = try CityImageWrapper.decodeCityFromData(from: data)
+                
+                 XCTAssertTrue(cityData != nil, "cityData was not loaded")
+            } catch let error {
+                XCTFail(error.localizedDescription)
+            }
+    }
 
 }
