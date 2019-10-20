@@ -12,7 +12,6 @@ class FavoritesViewController: UIViewController {
     
     var cityImages = [CityImage]() {
         didSet {
-            
             cityCollectionView.reloadData()
         }
     }
@@ -54,6 +53,7 @@ class FavoritesViewController: UIViewController {
     private func loadData() {
            do {
                cityImages = try PhotoPersistenceHelper.manager.getPhoto()
+               noFavoritesLabel.isHidden = cityImages.count != 0
            } catch {
                print(error)
            }
@@ -61,7 +61,6 @@ class FavoritesViewController: UIViewController {
     
     private func configureConstraints() {
         noFavoritesLabel.translatesAutoresizingMaskIntoConstraints = false
-        noFavoritesLabel.isHidden = cityImages.count != 0
         
         NSLayoutConstraint.activate([
             noFavoritesLabel.centerXAnchor.constraint(equalTo: self.cityCollectionView.centerXAnchor),
